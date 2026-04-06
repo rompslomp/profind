@@ -1,0 +1,59 @@
+<div class="container mt-4" style="max-width: 600px;">
+  <h1 class="mb-4">Account Settings</h1>
+
+  <div class="card shadow-sm mb-4">
+    <div class="card-header"><h5 class="mb-0">Profile</h5></div>
+    <div class="card-body">
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <div class="mb-3">
+          <%= f.label :name, class: "form-label" %>
+          <%= f.text_field :name, autofocus: true, autocomplete: "name", class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :email, class: "form-label" %>
+          <%= f.email_field :email, autocomplete: "email", class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :provider_bio, "About you (shown to potential clients)", class: "form-label" %>
+          <%= f.text_area :provider_bio, rows: 4, class: "form-control", placeholder: "Describe your experience and expertise..." %>
+        </div>
+
+        <hr>
+        <h6>Change password</h6>
+        <div class="mb-3">
+          <%= f.label :password, "New password (leave blank to keep current)", class: "form-label" %>
+          <%= f.password_field :password, autocomplete: "new-password", class: "form-control" %>
+          <% if @minimum_password_length %>
+            <div class="form-text"><%= @minimum_password_length %> characters minimum</div>
+          <% end %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password_confirmation, class: "form-label" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :current_password, "Current password (required to save changes)", class: "form-label" %>
+          <%= f.password_field :current_password, autocomplete: "current-password", class: "form-control" %>
+        </div>
+
+        <%= f.submit "Update Profile", class: "btn btn-primary" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-danger">
+    <div class="card-header bg-danger text-white"><h5 class="mb-0">Danger Zone</h5></div>
+    <div class="card-body">
+      <p>Once you delete your account, it cannot be recovered.</p>
+      <%= button_to "Delete my account", registration_path(resource_name),
+            data: { turbo_confirm: "Are you sure? This cannot be undone." }, method: :delete,
+            class: "btn btn-danger" %>
+    </div>
+  </div>
+</div>
