@@ -46,9 +46,11 @@ docker compose up
 
 The app will be available at **http://localhost:3000**.
 
-On first boot, docker-compose automatically:
-- Creates and migrates the database
-- Seeds test data (see below)
+On first boot, Docker Compose automatically creates and migrates the database. It does **not** seed automatically — run this once to load test data:
+
+```bash
+docker compose run --rm web bin/rails db:seed
+```
 
 ---
 
@@ -84,12 +86,14 @@ The seed file (`db/seeds.rb`) creates the following accounts. All passwords are 
 
 The seeds also create **10 category tags** (Electrician, Plumber, Painter, Carpenter, Landscaper, HVAC, Roofer, Tiler, Cleaner, Handyman) and a sample quote from Sarah to John's electrical service.
 
-To re-seed at any time:
+To seed (or re-seed) at any time:
 
 ```bash
+# Locally:
 bin/rails db:seed
-# or inside Docker:
-docker compose exec web bin/rails db:seed
+
+# Inside Docker:
+docker compose run --rm web bin/rails db:seed
 ```
 
 ---
