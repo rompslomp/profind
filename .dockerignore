@@ -10,9 +10,10 @@
 # Ignore all environment files.
 /.env*
 
-# Ignore all default key files.
+# Ignore credential keys — except development (committed and safe to include in local images).
 /config/master.key
-/config/credentials/*.key
+/config/credentials/staging.key
+/config/credentials/production.key
 
 # Ignore all logfiles and tempfiles.
 /log/*

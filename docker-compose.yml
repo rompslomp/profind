@@ -4,7 +4,7 @@ services:
     environment:
       POSTGRES_USER: profind
       POSTGRES_PASSWORD: profind_password
-      POSTGRES_DB: profind_production
+      POSTGRES_DB: profind_development
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
@@ -22,12 +22,11 @@ services:
              bin/rails db:seed &&
              bin/rails server -b 0.0.0.0 -p 3000"
     environment:
-      RAILS_ENV: production
-      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY_PRODUCTION}
+      RAILS_ENV: development
       DB_HOST: db
       POSTGRES_USER: profind
       POSTGRES_PASSWORD: profind_password
-      POSTGRES_DB: profind_production
+      POSTGRES_DB: profind_development
       RAILS_LOG_TO_STDOUT: "true"
       PORT: "3000"
     ports:
