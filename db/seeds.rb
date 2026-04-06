@@ -52,14 +52,14 @@ electrician_service.assign_attributes(
   description: "Complete electrical repair and installation service for your home. Outlet replacement, panel upgrades, ceiling fan installation, and safety inspections. All work meets local code requirements. Free estimates on larger jobs."
 )
 electrician_service.save!
-electrician_service.tags = [tags.find { |t| t.name == "Electrician" }, tags.find { |t| t.name == "Handyman" }].compact
+electrician_service.tags = [ tags.find { |t| t.name == "Electrician" }, tags.find { |t| t.name == "Handyman" } ].compact
 
 handyman_service = Service.find_or_initialize_by(title: "General Home Maintenance & Repairs", user: provider)
 handyman_service.assign_attributes(
   description: "Your one-stop solution for home repairs and maintenance tasks. Door and window repairs, minor plumbing fixes, furniture assembly, drywall patching, and more. No job too small!"
 )
 handyman_service.save!
-handyman_service.tags = [tags.find { |t| t.name == "Handyman" }, tags.find { |t| t.name == "Carpenter" }].compact
+handyman_service.tags = [ tags.find { |t| t.name == "Handyman" }, tags.find { |t| t.name == "Carpenter" } ].compact
 
 puts "  Provider has #{provider.services.count} services"
 
@@ -82,14 +82,14 @@ paint_service.assign_attributes(
   description: "Transform your home with a fresh coat of paint. We handle everything from wall prep, priming, to the final coat. Interior rooms, exterior facades, cabinets, and fences. We use premium, low-VOC paints."
 )
 paint_service.save!
-paint_service.tags = [tags.find { |t| t.name == "Painter" }].compact
+paint_service.tags = [ tags.find { |t| t.name == "Painter" } ].compact
 
 clean_service = Service.find_or_initialize_by(title: "Deep Home Cleaning Service", user: provider2)
 clean_service.assign_attributes(
   description: "Professional deep cleaning for your home. Kitchen degreasing, bathroom sanitizing, window cleaning, and floor polishing. We bring all equipment and eco-friendly cleaning products. One-time or recurring bookings available."
 )
 clean_service.save!
-clean_service.tags = [tags.find { |t| t.name == "Cleaner" }].compact
+clean_service.tags = [ tags.find { |t| t.name == "Cleaner" } ].compact
 
 puts "  Provider 2: #{provider2.email} / password123 with #{provider2.services.count} services"
 

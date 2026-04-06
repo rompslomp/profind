@@ -14,7 +14,6 @@ RSpec.describe "quotes/new", type: :view do
     render
 
     assert_select "form[action=?][method=?]", quotes_path, "post" do
-
       assert_select "textarea[name=?]", "quote[message]"
 
       assert_select "input[name=?]", "quote[status]"
