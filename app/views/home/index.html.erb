@@ -1,0 +1,70 @@
+<% content_for :title, "proFind - Find Qualified Home Professionals" %>
+
+<div class="bg-primary text-white py-5 mb-5">
+  <div class="container text-center py-4">
+    <h1 class="display-4 fw-bold mb-3">Find the Right Professional</h1>
+    <p class="lead mb-4">Electricians, plumbers, painters and more &mdash; qualified and verified.</p>
+    <%= form_with url: services_path, method: :get, class: "d-flex justify-content-center gap-2" do |f| %>
+      <div class="input-group" style="max-width: 500px;">
+        <%= f.text_field :q, placeholder: "Search professionals...", class: "form-control form-control-lg" %>
+        <%= f.submit "Search", class: "btn btn-warning btn-lg" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="container">
+  <% if @tags.any? %>
+    <div class="mb-5">
+      <h5 class="text-muted mb-3">Browse by category</h5>
+      <div class="d-flex flex-wrap gap-2">
+        <%= link_to "All", services_path, class: "btn btn-outline-primary btn-sm" %>
+        <% @tags.each do |tag| %>
+          <%= link_to tag.name, services_path(tag_id: tag.id), class: "btn btn-outline-secondary btn-sm" %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <h2 class="mb-4">Featured Professionals</h2>
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <% @featured_services.each do |service| %>
+      <div class="col">
+        <div class="card h-100 shadow-sm">
+          <% if service.images.attached? %>
+            <%= image_tag service.images.first, class: "card-img-top", style: "height: 200px; object-fit: cover;" %>
+          <% else %>
+            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+              <span class="text-muted fs-1">&#128296;</span>
+            </div>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= service.title %></h5>
+            <p class="text-muted small mb-2">by <%= service.user.name %></p>
+            <p class="card-text"><%= truncate(service.description, length: 100) %></p>
+            <% if service.tags.any? %>
+              <div class="mb-2">
+                <% service.tags.each do |tag| %>
+                  <span class="badge bg-secondary"><%= tag.name %></span>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+          <div class="card-footer bg-transparent">
+            <%= link_to "View & Request Quote", service_path(service), class: "btn btn-primary btn-sm w-100" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @featured_services.empty? %>
+    <div class="text-center py-5 text-muted">
+      <p class="fs-5">No professionals listed yet. Check back soon!</p>
+    </div>
+  <% end %>
+
+  <div class="text-center mt-4">
+    <%= link_to "Browse All Professionals", services_path, class: "btn btn-outline-primary" %>
+  </div>
+</div>

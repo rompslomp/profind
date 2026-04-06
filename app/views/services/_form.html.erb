@@ -1,0 +1,44 @@
+<%= form_with(model: service, class: "needs-validation") do |form| %>
+  <% if service.errors.any? %>
+    <div class="alert alert-danger">
+      <h6><%= pluralize(service.errors.count, "error") %> prevented this service from being saved:</h6>
+      <ul class="mb-0">
+        <% service.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="mb-3">
+    <%= form.label :title, class: "form-label" %>
+    <%= form.text_field :title, class: "form-control #{'is-invalid' if service.errors[:title].any?}" %>
+    <div class="invalid-feedback"><%= service.errors[:title].first %></div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :description, class: "form-label" %>
+    <%= form.text_area :description, rows: 6, class: "form-control #{'is-invalid' if service.errors[:description].any?}" %>
+    <div class="invalid-feedback"><%= service.errors[:description].first %></div>
+  </div>
+
+  <div class="mb-3">
+    <%= form.label :images, "Upload Images", class: "form-label" %>
+    <%= form.file_field :images, multiple: true, accept: "image/*", class: "form-control" %>
+    <div class="form-text">You can select multiple images.</div>
+    <% if service.images.attached? %>
+      <div class="mt-2 d-flex flex-wrap gap-2">
+        <% service.images.each do |img| %>
+          <div class="position-relative">
+            <%= image_tag img, style: "height: 80px; width: 80px; object-fit: cover; border-radius: 4px;" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="d-flex gap-2">
+    <%= form.submit class: "btn btn-primary" %>
+    <%= link_to "Cancel", services_path, class: "btn btn-outline-secondary" %>
+  </div>
+<% end %>

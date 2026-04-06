@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="h-100">
+  <head>
+    <title><%= content_for(:title) || "proFind" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="proFind">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="d-flex flex-column h-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <%= link_to "proFind", root_path, class: "navbar-brand fw-bold" %>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <%= link_to "Find Professionals", services_path, class: "nav-link" %>
+            </li>
+            <% if user_signed_in? && current_user.approved_provider? %>
+              <li class="nav-item">
+                <%= link_to "My Services", services_path(mine: true), class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Add Service", new_service_path, class: "nav-link" %>
+              </li>
+            <% end %>
+            <% if user_signed_in? %>
+              <li class="nav-item">
+                <%= link_to "My Quotes", quotes_path, class: "nav-link" %>
+              </li>
+            <% end %>
+            <% if user_signed_in? && current_user.admin? %>
+              <li class="nav-item">
+                <%= link_to "Admin", admin_root_path, class: "nav-link" %>
+              </li>
+            <% end %>
+          </ul>
+          <ul class="navbar-nav align-items-center gap-1">
+            <% if user_signed_in? %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                  <%= current_user.name %>
+                  <% if current_user.admin? %>
+                    <span class="badge bg-warning text-dark">Admin</span>
+                  <% elsif current_user.approved_provider? %>
+                    <span class="badge bg-success">Pro</span>
+                  <% elsif current_user.pending? %>
+                    <span class="badge bg-secondary">Pending</span>
+                  <% end %>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><%= link_to "Account Settings", edit_user_registration_path, class: "dropdown-item" %></li>
+                  <% unless current_user.provider? || current_user.admin? || current_user.pending? %>
+                    <li><%= link_to "Become a Provider", new_provider_request_path, class: "dropdown-item" %></li>
+                  <% end %>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "dropdown-item btn btn-link text-start px-3" %></li>
+                </ul>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to "Sign in", new_user_session_path, class: "nav-link" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "Sign up", new_user_registration_path, class: "btn btn-outline-light btn-sm" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <% if notice.present? %>
+      <div class="container mt-3">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+          <%= notice %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      </div>
+    <% end %>
+
+    <% if alert.present? %>
+      <div class="container mt-3">
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          <%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      </div>
+    <% end %>
+
+    <main class="flex-grow-1 pb-5">
+      <%= yield %>
+    </main>
+
+    <footer class="bg-dark text-light py-4">
+      <div class="container text-center">
+        <p class="mb-0">&copy; <%= Time.current.year %> proFind &mdash; Find qualified professionals for your home.</p>
+      </div>
+    </footer>
+  </body>
+</html>

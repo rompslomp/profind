@@ -1,0 +1,26 @@
+<% content_for :title, "Become a Provider" %>
+
+<div class="container mt-4" style="max-width: 600px;">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">Become a Service Provider</h4>
+    </div>
+    <div class="card-body">
+      <p>By submitting this request, you're asking to be upgraded to a <strong>service provider</strong> account. An admin will review and approve your request.</p>
+      <p>Once approved, you'll be able to:</p>
+      <ul>
+        <li>Create and advertise your services</li>
+        <li>Add photos to your listings</li>
+        <li>Tag your services for easier discovery</li>
+        <li>Receive quote requests from potential clients</li>
+      </ul>
+
+      <%= form_with url: provider_requests_path, method: :post do |f| %>
+        <div class="d-flex gap-2">
+          <%= f.submit "Submit Provider Request", class: "btn btn-primary" %>
+          <%= link_to "Cancel", root_path, class: "btn btn-outline-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

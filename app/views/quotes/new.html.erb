@@ -1,0 +1,28 @@
+<% content_for :title, "Request a Quote" %>
+
+<div class="container mt-4" style="max-width: 600px;">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to @service.title, service_path(@service) %></li>
+      <li class="breadcrumb-item active">Request a Quote</li>
+    </ol>
+  </nav>
+
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Request a Quote &mdash; <%= @service.title %></h5>
+    </div>
+    <div class="card-body">
+      <%= form_with model: @quote, url: service_quotes_path(@service) do |f| %>
+        <div class="mb-3">
+          <%= f.label :message, "Describe your need", class: "form-label" %>
+          <%= f.text_area :message, rows: 5, class: "form-control", placeholder: "Tell the professional what you need..." %>
+        </div>
+        <div class="d-flex gap-2">
+          <%= f.submit "Send Quote Request", class: "btn btn-primary" %>
+          <%= link_to "Cancel", service_path(@service), class: "btn btn-outline-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

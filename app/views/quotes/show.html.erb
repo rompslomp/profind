@@ -1,0 +1,39 @@
+<% content_for :title, "Quote Request" %>
+
+<div class="container mt-4" style="max-width: 700px;">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to "My Quotes", quotes_path %></li>
+      <li class="breadcrumb-item active">Quote Detail</li>
+    </ol>
+  </nav>
+
+  <div class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Quote Request</h5>
+      <span class="badge <%= @quote.pending? ? 'bg-warning text-dark' : @quote.responded? ? 'bg-success' : 'bg-secondary' %> fs-6">
+        <%= @quote.status.capitalize %>
+      </span>
+    </div>
+    <div class="card-body">
+      <dl class="row mb-0">
+        <dt class="col-sm-3">Service</dt>
+        <dd class="col-sm-9"><%= link_to @quote.service.title, service_path(@quote.service) %></dd>
+
+        <dt class="col-sm-3">Provider</dt>
+        <dd class="col-sm-9"><%= @quote.service.user.name %></dd>
+
+        <dt class="col-sm-3">Submitted</dt>
+        <dd class="col-sm-9"><%= @quote.created_at.strftime("%B %d, %Y at %H:%M") %></dd>
+
+        <dt class="col-sm-3">Message</dt>
+        <dd class="col-sm-9"><%= simple_format(@quote.message) %></dd>
+      </dl>
+    </div>
+    <div class="card-footer d-flex gap-2">
+      <%= link_to "Back", quotes_path, class: "btn btn-outline-secondary" %>
+      <%= button_to "Delete Request", quote_path(@quote), method: :delete, class: "btn btn-outline-danger",
+            data: { turbo_confirm: "Are you sure you want to delete this quote request?" } %>
+    </div>
+  </div>
+</div>

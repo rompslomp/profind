@@ -1,0 +1,86 @@
+<% content_for :title, @service.title %>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-8">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><%= link_to "Professionals", services_path %></li>
+          <li class="breadcrumb-item active"><%= @service.title %></li>
+        </ol>
+      </nav>
+
+      <% if @service.images.attached? %>
+        <div id="serviceCarousel" class="carousel slide mb-4 shadow-sm rounded overflow-hidden">
+          <div class="carousel-inner">
+            <% @service.images.each_with_index do |img, i| %>
+              <div class="carousel-item <%= 'active' if i == 0 %>">
+                <%= image_tag img, class: "d-block w-100", style: "height: 350px; object-fit: cover;" %>
+              </div>
+            <% end %>
+          </div>
+          <% if @service.images.count > 1 %>
+            <button class="carousel-control-prev" type="button" data-bs-target="#serviceCarousel" data-bs-slide="prev">
+              <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#serviceCarousel" data-bs-slide="next">
+              <span class="carousel-control-next-icon"></span>
+            </button>
+          <% end %>
+        </div>
+      <% end %>
+
+      <h1 class="mb-1"><%= @service.title %></h1>
+      <p class="text-muted mb-3">by <strong><%= @service.user.name %></strong></p>
+
+      <% if @service.tags.any? %>
+        <div class="mb-3">
+          <% @service.tags.each do |tag| %>
+            <%= link_to tag.name, services_path(tag_id: tag.id), class: "badge bg-primary text-decoration-none me-1" %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="card shadow-sm mb-4">
+        <div class="card-body">
+          <h5>About this service</h5>
+          <p class="card-text"><%= simple_format(@service.description) %></p>
+        </div>
+      </div>
+
+      <% if current_user&.approved_provider? && @service.user == current_user || current_user&.admin? %>
+        <div class="d-flex gap-2 mb-4">
+          <%= link_to "Edit Service", edit_service_path(@service), class: "btn btn-outline-secondary" %>
+          <%= button_to "Delete Service", @service, method: :delete, class: "btn btn-outline-danger",
+                data: { turbo_confirm: "Are you sure you want to delete this service?" } %>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow-sm sticky-top" style="top: 80px;">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Request a Quote</h5>
+        </div>
+        <div class="card-body">
+          <% if user_signed_in? %>
+            <%= form_with model: @quote, url: service_quotes_path(@service) do |f| %>
+              <div class="mb-3">
+                <%= f.label :message, "Describe your need", class: "form-label" %>
+                <%= f.text_area :message, rows: 5, class: "form-control", placeholder: "Tell the professional what you need..." %>
+              </div>
+              <%= f.submit "Send Quote Request", class: "btn btn-primary w-100" %>
+            <% end %>
+          <% else %>
+            <p class="text-muted">Please sign in to request a quote.</p>
+            <%= link_to "Sign in", new_user_session_path, class: "btn btn-primary w-100" %>
+            <p class="text-center mt-2 mb-0">
+              Don't have an account?
+              <%= link_to "Sign up", new_user_registration_path %>
+            </p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

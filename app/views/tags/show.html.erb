@@ -1,0 +1,17 @@
+<% content_for :title, @tag.name %>
+
+<div class="container mt-4">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><%= link_to "Categories", tags_path %></li>
+      <li class="breadcrumb-item active"><%= @tag.name %></li>
+    </ol>
+  </nav>
+
+  <div class="d-flex align-items-center gap-3 mb-4">
+    <h1 class="mb-0"><%= @tag.name %></h1>
+    <span class="badge bg-primary fs-6"><%= @tag.services.count %> services</span>
+  </div>
+
+  <%= link_to "Browse #{@tag.name} services", services_path(tag_id: @tag.id), class: "btn btn-primary" %>
+</div>

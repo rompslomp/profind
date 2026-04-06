@@ -1,0 +1,46 @@
+<% content_for :title, "Edit Service" %>
+
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-7">
+      <h1 class="mb-4">Edit Service</h1>
+      <%= render "form", service: @service %>
+    </div>
+
+    <div class="col-md-5">
+      <div class="card shadow-sm">
+        <div class="card-header">
+          <h5 class="mb-0">Manage Tags</h5>
+        </div>
+        <div class="card-body">
+          <% if @service.tags.any? %>
+            <p class="small text-muted">Current tags:</p>
+            <div class="d-flex flex-wrap gap-1 mb-3">
+              <% @service.tags.each do |tag| %>
+                <span class="badge bg-primary d-flex align-items-center gap-1">
+                  <%= tag.name %>
+                  <%= button_to "×", remove_tag_service_path(@service, tag_id: tag.id), method: :delete,
+                        class: "btn btn-link btn-sm p-0 text-white",
+                        data: { turbo_confirm: "Remove tag #{tag.name}?" } %>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+
+          <% available_tags = @tags - @service.tags %>
+          <% if available_tags.any? %>
+            <p class="small text-muted">Add tags:</p>
+            <div class="d-flex flex-wrap gap-1">
+              <% available_tags.each do |tag| %>
+                <%= button_to tag.name, add_tag_service_path(@service, tag_id: tag.id), method: :post,
+                      class: "btn btn-outline-secondary btn-sm" %>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-muted small mb-0">All available tags have been added.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
