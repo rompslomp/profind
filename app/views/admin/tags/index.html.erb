@@ -1,0 +1,33 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1>Manage Tags</h1>
+  <%= link_to "New Tag", new_admin_tag_path, class: "btn btn-primary" %>
+</div>
+
+<% if @tags.empty? %>
+  <div class="alert alert-info">No tags yet. Create the first one!</div>
+<% else %>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Name</th>
+          <th>Services using this tag</th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @tags.each do |tag| %>
+          <tr>
+            <td><span class="badge bg-primary fs-6"><%= tag.name %></span></td>
+            <td><%= tag.services.count %></td>
+            <td class="text-end">
+              <%= link_to "Edit", edit_admin_tag_path(tag), class: "btn btn-outline-secondary btn-sm" %>
+              <%= button_to "Delete", admin_tag_path(tag), method: :delete, class: "btn btn-outline-danger btn-sm ms-1",
+                    data: { turbo_confirm: "Delete tag '#{tag.name}'? It will be removed from all services." } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

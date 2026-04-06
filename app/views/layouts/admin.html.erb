@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html class="h-100">
+  <head>
+    <title>proFind Admin</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="bg-light d-flex flex-column h-100">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <%= link_to "proFind Admin", admin_root_path, class: "navbar-brand fw-bold" %>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav"
+                aria-controls="adminNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="adminNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item"><%= link_to "Dashboard", admin_root_path, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to "Provider Requests", admin_provider_requests_path, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to "Users", admin_users_path, class: "nav-link" %></li>
+            <li class="nav-item"><%= link_to "Tags", admin_tags_path, class: "nav-link" %></li>
+          </ul>
+          <ul class="navbar-nav align-items-center gap-1">
+            <li class="nav-item">
+              <%= link_to "Back to Site", root_path, class: "nav-link" %>
+            </li>
+            <li class="nav-item">
+              <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-outline-light btn-sm" %>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <% if notice.present? %>
+      <div class="container mt-3">
+        <div class="alert alert-success alert-dismissible fade show">
+          <%= notice %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      </div>
+    <% end %>
+
+    <% if alert.present? %>
+      <div class="container mt-3">
+        <div class="alert alert-danger alert-dismissible fade show">
+          <%= alert %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      </div>
+    <% end %>
+
+    <main class="container flex-grow-1 mt-4 mb-5">
+      <%= yield %>
+    </main>
+
+    <footer class="bg-dark text-light py-3">
+      <div class="container text-center">
+        <p class="mb-0 small">&copy; <%= Time.current.year %> proFind Admin</p>
+      </div>
+    </footer>
+  </body>
+</html>

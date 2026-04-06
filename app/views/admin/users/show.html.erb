@@ -1,0 +1,72 @@
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1><%= @user.name %></h1>
+  <%= link_to "Back to Users", admin_users_path, class: "btn btn-outline-secondary" %>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card shadow-sm mb-4">
+      <div class="card-header"><h5 class="mb-0">User Details</h5></div>
+      <div class="card-body">
+        <dl class="row mb-0">
+          <dt class="col-sm-4">Email</dt>
+          <dd class="col-sm-8"><%= @user.email %></dd>
+          <dt class="col-sm-4">Role</dt>
+          <dd class="col-sm-8">
+            <span class="badge <%= @user.admin? ? 'bg-danger' : @user.provider? ? 'bg-success' : 'bg-secondary' %>">
+              <%= @user.role.capitalize %>
+            </span>
+          </dd>
+          <dt class="col-sm-4">Status</dt>
+          <dd class="col-sm-8">
+            <span class="badge <%= @user.approved? ? 'bg-success' : @user.pending? ? 'bg-warning text-dark' : 'bg-secondary' %>">
+              <%= @user.provider_status.humanize %>
+            </span>
+          </dd>
+          <dt class="col-sm-4">Joined</dt>
+          <dd class="col-sm-8"><%= @user.created_at.strftime("%B %d, %Y") %></dd>
+          <% if @user.provider_bio.present? %>
+            <dt class="col-sm-4">Bio</dt>
+            <dd class="col-sm-8"><%= @user.provider_bio %></dd>
+          <% end %>
+        </dl>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-header"><h5 class="mb-0">Change Role</h5></div>
+      <div class="card-body">
+        <div class="d-flex gap-2 flex-wrap">
+          <%= button_to "Set Basic", update_role_admin_user_path(@user, role: :basic), method: :patch,
+                class: "btn btn-outline-secondary btn-sm",
+                disabled: @user.basic? %>
+          <%= button_to "Set Provider", update_role_admin_user_path(@user, role: :provider), method: :patch,
+                class: "btn btn-outline-success btn-sm",
+                disabled: @user.provider? %>
+          <%= button_to "Set Admin", update_role_admin_user_path(@user, role: :admin), method: :patch,
+                class: "btn btn-outline-danger btn-sm",
+                disabled: @user.admin?,
+                data: { turbo_confirm: "Grant admin access to #{@user.name}?" } %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-header"><h5 class="mb-0">Services (<%= @user.services.count %>)</h5></div>
+      <% if @user.services.any? %>
+        <ul class="list-group list-group-flush">
+          <% @user.services.each do |service| %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <%= service.title %>
+              <%= link_to "View", service_path(service), class: "btn btn-outline-primary btn-sm", target: "_blank" %>
+            </li>
+          <% end %>
+        </ul>
+      <% else %>
+        <div class="card-body text-muted">No services listed.</div>
+      <% end %>
+    </div>
+  </div>
+</div>
