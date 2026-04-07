@@ -95,5 +95,5 @@ jobs:
           RAILS_ENV: test
           DATABASE_URL: postgres://postgres:postgres@localhost:5432
           SECRET_KEY_BASE: test-secret-key-base-not-used-in-production-ci-only
-        run: bin/rails db:create db:migrate test
+        run: bin/rails db:create db:migrate && bundle exec rspec
 
