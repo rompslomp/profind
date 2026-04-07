@@ -50,7 +50,7 @@ yarn build:css                      # compile SCSS once
 ## Architecture
 
 ### Authorization Flow
-- **Devise** handles authentication; `ApplicationController` runs `before_action :authenticate_user!` except on `index`/`show`
+- **Devise** handles authentication; `ApplicationController` runs `before_action :authenticate_user!` except on `index`. Controllers with public `show` actions (`ServicesController`, `TagsController`) add `skip_before_action :authenticate_user!, only: :show` explicitly
 - **Pundit** policies (`app/policies/`) enforce authorization. `ServicePolicy` gates create/edit/destroy to approved providers and admins; `QuotePolicy` gates quote visibility to quote owner
 - Admin controllers inherit from `Admin::BaseController` which checks `current_user.admin?`
 
