@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "quotes/index", type: :view do
   before(:each) do
-    assign(:quotes, [create(:quote, message: "First quote message"), create(:quote, message: "Second quote message")])
+    assign(:quotes, [ create(:quote, message: "First quote message"), create(:quote, message: "Second quote message") ])
   end
 
   it "renders a list of quotes" do
