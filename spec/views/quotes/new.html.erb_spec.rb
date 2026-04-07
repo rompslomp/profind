@@ -1,26 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe "quotes/new", type: :view do
+  let(:service) { create(:service) }
+
   before(:each) do
-    assign(:quote, Quote.new(
-      message: "MyText",
-      status: 1,
-      user: nil,
-      service: nil
-    ))
+    assign(:service, service)
+    assign(:quote, Quote.new)
   end
 
   it "renders new quote form" do
     render
 
-    assert_select "form[action=?][method=?]", quotes_path, "post" do
+    assert_select "form[action=?][method=?]", service_quotes_path(service), "post" do
       assert_select "textarea[name=?]", "quote[message]"
-
-      assert_select "input[name=?]", "quote[status]"
-
-      assert_select "input[name=?]", "quote[user_id]"
-
-      assert_select "input[name=?]", "quote[service_id]"
     end
   end
 end

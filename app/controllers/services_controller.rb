@@ -1,5 +1,6 @@
 class ServicesController < ApplicationController
   before_action :set_service, only: %i[show edit update destroy add_tag remove_tag]
+  skip_before_action :authenticate_user!, only: :show
   before_action :authenticate_user!, only: %i[new create edit update destroy add_tag remove_tag]
 
   def index

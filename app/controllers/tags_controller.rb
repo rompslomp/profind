@@ -1,5 +1,6 @@
 class TagsController < ApplicationController
   before_action :set_tag, only: %i[show]
+  skip_before_action :authenticate_user!, only: :show
 
   def index
     @tags = Tag.order(:name)
